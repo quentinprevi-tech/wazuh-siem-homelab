@@ -184,6 +184,43 @@ This project helped validate several practical administration and security skill
 - Managing firewall rules between LAN, SERVERS, and DMZ networks
 - Maintaining Proxmox repositories, snapshots, and VM guest tools
 
+
+## DNS / Name Resolution
+
+Internal DNS is provided by the Active Directory domain controller SRV-AD01.
+
+The lab uses the internal domain:
+
+    homelab.local
+
+Important DNS records:
+
+| Name | IP address | Purpose |
+|---|---|---|
+| SRV-AD01.homelab.local | 10.10.20.10 | Domain Controller / DNS |
+| web01.homelab.local | 10.10.30.10 | DMZ Nginx web server |
+| wazuh-siem01 | 10.10.20.50 | Wazuh SIEM server |
+
+The Windows 11 domain client uses SRV-AD01 as DNS server.
+
+This allows the client to resolve internal lab names such as:
+
+    web01.homelab.local
+
+During the detection tests, web requests were generated using both the DNS name and the IP address of web01.
+
+## References
+
+Official documentation used during this project:
+
+- Wazuh documentation - Architecture and default ports: https://documentation.wazuh.com/current/getting-started/architecture.html
+- Wazuh documentation - Agent enrollment requirements: https://documentation.wazuh.com/current/user-manual/agent/agent-enrollment/requirements.html
+- Wazuh documentation - Agent enrollment troubleshooting: https://documentation.wazuh.com/current/user-manual/agent/agent-enrollment/troubleshooting.html
+- Microsoft documentation - Event ID 4625, failed logon: https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4625
+- Microsoft documentation - Event ID 4776, credential validation: https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/auditing/event-4776
+- Microsoft documentation - Advanced audit policy configuration: https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/plan/security-best-practices/advanced-audit-policy-configuration
+- Proxmox VE documentation - Package repositories: https://pve.proxmox.com/wiki/Package_Repositories
+
 ## Status
 
 Project status: Completed and validated.
