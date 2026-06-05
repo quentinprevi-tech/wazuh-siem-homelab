@@ -47,6 +47,42 @@ Main systems:
 | win11-client-lab | 10.10.10.105 | Windows 11 domain client |
 | web01 | 10.10.30.10 | Debian/Nginx DMZ web server |
 
+
+## Network Diagram
+
+```mermaid
+flowchart TD
+    subgraph LAN["LAN - 10.10.10.0/24"]
+        WIN11["win11-client-lab<br/>Windows 11<br/>10.10.10.105"]
+    end
+
+    subgraph SERVERS["SERVERS - 10.10.20.0/24"]
+        AD["SRV-AD01<br/>AD DS / DNS<br/>10.10.20.10"]
+        SYNC["SRV-SYNC01<br/>Entra Cloud Sync<br/>10.10.20.20"]
+        WAZUH["wazuh-siem01<br/>Wazuh SIEM<br/>10.10.20.50"]
+    end
+
+    subgraph DMZ["DMZ - 10.10.30.0/24"]
+        WEB["web01<br/>Debian / Nginx<br/>10.10.30.10"]
+    end
+
+    FW["OPNsense Firewall<br/>LAN / SERVERS / DMZ routing"]
+
+    WIN11 --> FW
+    AD --> FW
+    SYNC --> FW
+    WEB --> FW
+    WAZUH --> FW
+
+    AD -- "Windows Security logs<br/>4625 / 4776" --> WAZUH
+    SYNC -- "Windows logs" --> WAZUH
+    WIN11 -- "Endpoint logs" --> WAZUH
+    WEB -- "Linux + Nginx logs<br/>web01_access.log" --> WAZUH
+
+    WIN11 -- "HTTP tests<br/>/wp-login.php / .env / test404" --> WEB
+    WIN11 -- "Failed logon test" --> AD
+```
+
 ## Wazuh Deployment
 
 Wazuh was deployed as an all-in-one installation on a dedicated Ubuntu Server VM.
