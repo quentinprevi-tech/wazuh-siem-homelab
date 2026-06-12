@@ -174,6 +174,15 @@ Wazuh detected the events as:
 
 ![web01 Nginx logs in Wazuh](screenshots/web01-nginx-logs-wazuh.png)
 
+## Documentation
+
+- [Architecture](docs/architecture.md)
+- [Deployment](docs/deployment.md)
+- [Agents](docs/agents.md)
+- [Detection Tests](docs/detection-tests.md)
+- [Firewall Rules](docs/firewall-rules.md)
+- [Troubleshooting](docs/troubleshooting.md)
+
 ## Firewall Rules
 
 Firewall rules were configured in OPNsense to allow only the required traffic between monitored systems and the Wazuh server.
